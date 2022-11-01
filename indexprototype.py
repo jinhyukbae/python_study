@@ -2,13 +2,13 @@ print("Content-type: text/html")
 print()
 import cgi, os
 
-#리스트를 가져올 때 사용 
-def getList(): 
-  files = os.listdir('data')  
-  listStr = ''
-  for item in files:
-      listStr = listStr + '<li><a href="index.py?id={name}">{name}</a></li>'.format(name=item)
-  return listStr
+files = os.listdir('data') #listdir 함수의 입력값으로 data라고하는 str 주면 listdir라는 함수는 data라는 파일 목록을 리스트에 담아서 반환해주는 함수 
+listStr = ''
+for item in files:
+    listStr = listStr + '<li><a href="index.py?id={name}">{name}</a></li>'.format(name=item)
+    # files=item으로 인식 files=os.listdir('data')로 데이터 폴더에 있는 리스트로 files=item=list가 됨
+    # listStr 을 ''로 지정하고 공백 + files를 리스트를 false 값이 나올 때 까지 반복 ex) css html javascript python 출력 후 그 뒤는 공백=false이므로 중단 
+#print(listStr)
 
 
 #데이터폴더리스트=files=item=name
@@ -97,11 +97,7 @@ print('''<!doctype html>
 
 
 </body>
-</html>'''.format(title=pageId, 
-desc=description, 
-listStr=getList(), 
-update_link=update_link, 
-delete_action=delete_action))
+</html>'''.format(title=pageId, desc=description, listStr=listStr, update_link=update_link, delete_action=delete_action))
 
 # format에 desc=description을 추가하고 <p></p> 자리에 {desc}를 추가하면 저 자리에 id값이 없을 때 description = 'Hello hello'이 실행된다.
 
