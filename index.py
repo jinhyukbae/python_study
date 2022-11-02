@@ -1,18 +1,19 @@
 print("Content-type: text/html")
 print()
-import cgi, os
-
+import cgi, os, view
 #리스트를 가져올 때 사용 
-def getList(): 
-  files = os.listdir('data')  
-  listStr = ''
-  for item in files:
-      listStr = listStr + '<li><a href="index.py?id={name}">{name}</a></li>'.format(name=item)
-  return listStr
+
+#view라는 모듈로 대체됨 
+#def getList(): 
+  #files = os.listdir('data')  
+  #listStr = ''
+  #for item in files:
+      #listStr = listStr + '<li><a href="index.py?id={name}">{name}</a></li>'.format(name=item)
+  #return listStr
 
 
 #데이터폴더리스트=files=item=name
-#
+
 
 
 from pydoc import describe
@@ -24,6 +25,8 @@ form = cgi.FieldStorage()
 if 'id' in form: 
     pageId = form["id"].value
     description = open('data/'+pageId, 'r', encoding='UTF-8').read()
+    description = description.replace('<' '&lt;') # 누가 본문에 꺾쇠를 썼다면 &lt;로 치환한다. xss 보안을 위해 사용 
+    description = description.replace('>' '&gt;')
     update_link = '<a href="update.py?id={}">update</a>'.format(pageId) #format에 의해서 중괄호 부분이 pageId값으로 대체 
     delete_action = '''
     <form action="process_delete.py" method="post"> 
@@ -99,7 +102,7 @@ print('''<!doctype html>
 </body>
 </html>'''.format(title=pageId, 
 desc=description, 
-listStr=getList(), 
+listStr=view.getList(), 
 update_link=update_link, 
 delete_action=delete_action))
 
