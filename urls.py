@@ -1,29 +1,14 @@
-"""myproject URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf 
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
-from django.urls import path, include
-# http://127.0.0.1/
-# http://127.0.0.1/app/
-
-# http://127.0.0.1/create/
-# http://127.0.0.1/read/1/
+from django.urls import path
+from myapp import views
 urlpatterns = [
-    path('admin/', admin.site.urls), 
-    path('', include('myapp.urls'))
+    path('', views.index),
+    path('create/', views.create),
+    path('read/<id>/', views.read),
+    path('update/<id>/', views.update),
+    path('delete/', views.delete)
+    
 ]
+   
+#사용자가 경로를 지정하지 않았을 때 ' ' 인덱스로 위임하려면
+# 공백의 경로로 들어왔을 때 views.index가 실행이 될 것이다. 
 
-#어드민이 아닌 다른 경로로 접속을 하면 그 접속을 myapp폴더에 있는 urls 유입을 함
-# 사용자가 http://127.0.0.1/app/라는 경로로 접속 했을 때 myapp으로 위임 하고 싶다 하면 path('app/', include('myapp.urls')
